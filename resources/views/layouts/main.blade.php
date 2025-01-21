@@ -72,7 +72,7 @@
                     @else
                     <li class="nav-item dropdown justify-content-left">
                         <a href="#" class="nav-link " data-bs-toggle="dropdown" id="navbarDropdown">
-                            <img  class=" rounded-circle object-fit-cover h-50 w-50"  src="{{Auth::user()->profile_photo_path}}" alt="{{Auth::user()->name}}">
+                            <img  class=" rounded-circle object-fit-cover h-8 w-8"  src="{{Auth::user()->profile_photo_path}}" alt="{{Auth::user()->name}}">
                         
                         </a>
                         <div class="dropdown-menu dropdown-menu-left px-2 text-right mt-2">
