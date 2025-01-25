@@ -62,4 +62,8 @@ class BookController extends Controller
     {
         //
     }
+    public function details(Book $book)
+    {
+        return view("books.details", compact("book"));
+    }
 }

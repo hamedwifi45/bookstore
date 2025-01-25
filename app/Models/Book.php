@@ -18,4 +18,7 @@ class Book extends Model
     public function auther(){
     return $this->belongsToMany(Auther::class,"book_auther");
     }
+    public function rating(){
+        return $this->belongsToMany(User::class,"rating");
+    }
 }

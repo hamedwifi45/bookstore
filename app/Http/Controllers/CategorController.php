@@ -12,7 +12,7 @@ class CategorController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -62,4 +62,20 @@ class CategorController extends Controller
     {
         //
     }
+    public function result(Categor $categor){
+        $books = $categor->books()->paginate(12);
+        $title =  "الكتب التابعة ل" . $categor->name;
+        return view("Gallary", compact("books","title"));
+    }
+    public function list(){
+        $category = Categor::all()->sortBy('name');
+        $title = 'التصنيفات';
+        return view('categor.index', compact ("title",'category'));
+    }
+    public function search(Request $request){
+        $category = Categor::where('name','like','%'. $request->term . '%')->get()->sortBy('name');
+        $title = ' تصنيف باسم ' . $request->term;
+        return view('categor.index', compact('category','title'));
+    }
+
 }
