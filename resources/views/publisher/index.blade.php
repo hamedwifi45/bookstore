@@ -66,7 +66,7 @@
                             <ul class="list-group">
                                 @foreach ($publisher as $cat )
                                     <li class="list-group-item">
-                                        <a href="{{route('Gallary.publisher.show',$cat->name)}}" class="text-decoration-none">
+                                        <a href="{{route('Gallary.publisher.show',$cat->id)}}" class="text-decoration-none">
                                             {{$cat->name . " (" . $cat->books->count() . ')'}}
                                         </a>
                                     </li>

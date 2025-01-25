@@ -37,6 +37,6 @@ Route::get('/book/{book}' ,[BookController::class ,'details'] )->name('book.deta
 Route::get('/category/{categor:name}' ,[CategorController::class ,'result'] )->name('Gallary.category.show');
 Route::get('/category',[CategorController::class ,'list'] )->name('categor.list');
 Route::get('/categor/search' ,[CategorController::class ,'search'] )->name('search.categor');
+Route::get('/publisher/search' ,[PublisherController::class ,'search'] )->name('search.publisher');
 Route::get('/publisher/{Publisher:name}' ,[PublisherController::class ,'result'] )->name('Gallary.publisher.show');
 Route::get('/publisher',[PublisherController::class ,'list'] )->name('publisher.list');
-Route::get('/publisher/search' ,[PublisherController::class ,'show'] )->name('search.publisher');

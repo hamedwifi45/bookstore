@@ -67,9 +67,9 @@ class PublisherController extends Controller
         $title = ' الناشر باسم ' . $request->term;
         return view('publisher.index', compact('publisher','title'));
     }
-    public function result(Publisher $categor){
-        $books = $categor->books()->paginate(12);
-        $title =  "الكتب التابعة ل" . $categor->name;
+    public function result(Publisher $publisher){
+        $books = $publisher->books()->paginate(12);
+        $title =  "الكتب التابعة ل" . $publisher->name;
         return view("Gallary", compact("books","title"));
     }
     public function list(){
