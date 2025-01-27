@@ -45,7 +45,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{route('auther.list')}}" class="nav-link">
                             المؤلفون
                             <i class="bi bi-pen"></i>
                         </a>

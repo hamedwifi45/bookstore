@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Auther extends Model
 {
     use HasFactory;
-    public function Book(){
+    public function books(){
         return $this->belongsToMany(Book::class , 'book_auther');
     }
 }

@@ -62,4 +62,20 @@ class AutherController extends Controller
     {
         //
     }
+    public function search(Request $request){
+        $auther = Auther::where('name','like','%'. $request->term . '%')->get()->sortBy('name');
+        $title = ' المؤلف باسم ' . $request->term;
+        return view('auther.index', compact('auther','title'));
+    }
+    public function result(Auther $auther){
+        $books = $auther->books()->paginate(12);
+        $title =  "الكتب التابعة ل" . $auther->name;
+        // dd($books , $title);
+        return view("Gallary", compact("books","title"));
+    }
+    public function list(){
+        $auther = Auther::all()->sortBy('name');
+        $title = 'المؤلفون';
+        return view('auther.index', compact ("title",'auther'));
+    }
 }

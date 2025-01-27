@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use App\Models\Auther;
+use App\Models\Categor;
+use App\Models\Publisher;
+use Illuminate\Validation\Rule;
 
 class BookController extends Controller
 {
@@ -12,7 +16,8 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        $books = Book::all();
+        return view("admin.book.index", compact("books"));
     }
 
     /**
@@ -20,7 +25,10 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        $author = Auther::all();
+        $publisher = Publisher::all();
+        $categor = Categor::all();
+        return view('admin.book.create',compact('author','publisher','categor'));
     }
 
     /**
@@ -28,7 +36,20 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
+        $data = $this->validate($request, ['title' => 'required',
+        "isbn" => ['required','alpha_num' , Rule::unique("books", 'isbn')],
+        "cover_image" => 'image|required',
+        'categor' => 'nullable',
+        'publisher' => 'nullable' ,
+        'author' => 'nullable',
+        'description' => 'nullable',
+        'publish_year' => 'numeric|nullable',
+        'number_of_page' => 'numeric|required',
+        'number_of_copy' => 'numeric|required',
+        'price' => 'numeric|required'
+    ]);
+    Book::create($data);
     }
 
     /**

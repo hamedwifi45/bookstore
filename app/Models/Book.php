@@ -8,7 +8,10 @@ use App\Models\Categor;
 
 class Book extends Model
 {
+    
     use HasFactory;
+
+    protected $guarded = [];
     public function categor(){
         return $this->belongsTo(Categor::class);
     }

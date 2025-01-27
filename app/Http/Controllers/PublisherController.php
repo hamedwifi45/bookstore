@@ -70,6 +70,7 @@ class PublisherController extends Controller
     public function result(Publisher $publisher){
         $books = $publisher->books()->paginate(12);
         $title =  "الكتب التابعة ل" . $publisher->name;
+        // dd($books , $title);
         return view("Gallary", compact("books","title"));
     }
     public function list(){
