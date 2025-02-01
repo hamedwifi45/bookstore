@@ -8,7 +8,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
+  
+  <link href="{{asset("theme/vendor/datatables/dataTables.bootstrap4.min.css")}}" rel="stylesheet">
 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <title>لوحة الإدارة - مكتبة حسوب</title>
 
   <!-- Custom fonts for this template-->

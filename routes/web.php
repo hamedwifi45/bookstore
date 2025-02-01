@@ -53,3 +53,12 @@ Route::get('/admin', [AdminController::class ,'index'] )->name('admin.index');
 Route::get('/admin/books', [BookController::class ,'index'] )->name('books.index');
 Route::get('/admin/books/create', [BookController::class ,'create'] )->name('books.create');
 Route::post('/admin/books/store', [BookController::class ,'store'] )->name('books.store');
+Route::delete('/admin/books/delete/{book}', [BookController::class ,'destroy'] )->name('books.delete');
+Route::get('/admin/books/show/{book:title}', [BookController::class ,'show'] )->name('books.show');
+
+use Intervention\Image\Facades\Image;
+
+Route::get('/test-image', function () {
+    $img = Image::make('https://example.com/sample-image.jpg')->resize(300, 200);
+    return $img->response('jpg');
+});

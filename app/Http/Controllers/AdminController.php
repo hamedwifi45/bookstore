@@ -15,7 +15,8 @@ class AdminController extends Controller
         $number_of_category = Categor::count();
         $number_of_publisher = Publisher::count();
         $number_of_auther = Auther::count();
-
-        return view("admin.index",compact("number_of_book","number_of_category","number_of_publisher","number_of_auther"));
+        $bookv = Book::where('number_of_copy',"<", 10)->take(5)->get();
+        $bookm = Book::orderBy("view","desc")->take(2)->get();
+        return view("admin.index",compact("number_of_book","number_of_category","bookm",'bookv',"number_of_publisher","number_of_auther"));
     }
 }

@@ -24,7 +24,7 @@
 </head>
 <body dir="rtl" style="text-align: right">
     <div>
-        <nav class="navbar navbar-expand-lg navbar-light bg-blue-300">
+        <nav class="navbar navbar-expand-lg navbar-light bg-warning">
             <div class="container-fluid">
               <a class="navbar-brand" href="{{ url('/')}}">مكتبتي</a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,7 +74,7 @@
                     @else
                     <li class="nav-item dropdown justify-content-left">
                         <a href="#" class="nav-link " data-bs-toggle="dropdown" id="navbarDropdown">
-                            <img  class=" rounded-circle object-fit-cover h-8 w-8"  src="{{Auth::user()->profile_photo_path}}" alt="{{Auth::user()->name}}">
+                            <img  class=" rounded-circle object-fit-cover h-8 w-8"  src="{{asset("storage/" .Auth::user()->profile_photo_path)}}" alt="{{Auth::user()->name}}">
                         
                         </a>
                         <div class="dropdown-menu dropdown-menu-left px-2 text-right mt-2">

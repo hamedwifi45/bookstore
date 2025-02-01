@@ -8,9 +8,12 @@ use App\Models\Auther;
 use App\Models\Categor;
 use App\Models\Publisher;
 use Illuminate\Validation\Rule;
+use App\Traits\ImageUploadTrait;
+
 
 class BookController extends Controller
 {
+    use ImageUploadTrait;
     /**
      * Display a listing of the resource.
      */
@@ -36,28 +39,42 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        // dd($request);
         $data = $this->validate($request, ['title' => 'required',
         "isbn" => ['required','alpha_num' , Rule::unique("books", 'isbn')],
         "cover_image" => 'image|required',
-        'categor' => 'nullable',
-        'publisher' => 'nullable' ,
-        'author' => 'nullable',
+        'categor_id' => 'nullable',
+        'publisher_id' => 'nullable' ,
         'description' => 'nullable',
         'publish_year' => 'numeric|nullable',
         'number_of_page' => 'numeric|required',
         'number_of_copy' => 'numeric|required',
         'price' => 'numeric|required'
     ]);
-    Book::create($data);
-    }
+    // dd($data , $request);
 
+    if ($request->hasFile('cover_image')) {
+        $filename = $this->uploadImg($request->file('cover_image'));
+        $data['cover_image'] = $filename;
+    }
+    $book = Book::create($data);
+    if ($request->has('author')) 
+    {
+        $inder = $request['author'];
+        foreach ($inder as $fee) {
+            $book->auther()->attach($fee);
+    }
+    }
+    return redirect()->route('books.create');
+}
     /**
      * Display the specified resource.
      */
     public function show(Book $book)
     {
-        //
+        // dd($book);
+        // $book = Book::find( $book );
+        return view('admin.book.show',compact('book'));
     }
 
     /**
@@ -81,10 +98,13 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
+        return redirect()->route('books.index');
     }
     public function details(Book $book)
     {
+        $book->view += 1;
+        $book->save();
         return view("books.details", compact("book"));
     }
 }

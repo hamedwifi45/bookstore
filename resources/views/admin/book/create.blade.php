@@ -54,16 +54,16 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="categor" class="col-4 col-form-label text-md-right">ادخل الصنف</label>
+                <label for="categor_id" class="col-4 col-form-label text-md-right">ادخل الصنف</label>
                 <div class="col-md-8">
-                    <select name="categor" class="form-control" id="categor">
+                    <select name="categor_id" class="form-control @error('categor_id') is-invalid @enderror" id="categor_id">
                         <option disabled selected> ادخل تصنيفا</option>
                         @foreach ($categor as $cat )
                             <option value="{{$cat->id}}">{{$cat->name}}</option>
                         @endforeach
                     </select>
                     <span class="invalid-feedback" role="alert">
-                        @error('categor')
+                        @error('categor_id')
 
                         <strong>{{$message}}</strong>
                         @enderror
@@ -71,16 +71,16 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="publisher" class="col-4 col-form-label text-md-right">ادخل الناشر</label>
+                <label for="publisher_id" class="col-4 col-form-label text-md-right @error('publisher_id') is-invalid @enderror">ادخل الناشر</label>
                 <div class="col-md-8">
-                    <select name="publisher" class="form-control" id="publisher">
+                    <select name="publisher_id" class="form-control" id="publisher_id">
                         <option disabled selected>اختر الناشر</option>
                         @foreach ($publisher as $pub )
                             <option value="{{$pub->id}}">{{$pub->name}}</option>
                         @endforeach
                     </select>
                     <span class="invalid-feedback" role="alert">
-                        @error('publisher')
+                        @error('publisher_id')
 
                         <strong>{{$message}}</strong>
                         @enderror
@@ -89,7 +89,7 @@
             </div>
             
             <div class="form-group row">
-                <label for="author" class="col-4 col-form-label text-md-right">ادخل اسم المؤلف</label>
+                <label for="author" class="col-4 col-form-label text-md-right @error('author') is-invalid @enderror">ادخل اسم المؤلف</label>
                 <div class="col-md-8">
                     <select name="author[]" multiple class="form-control" id="author">
                         <option disabled selected>اختر المؤلف</option>
@@ -111,7 +111,7 @@
                 <label for="description" class="col-4 col-form-label text-md-right">الوصف</label>
                 <div class="col-md-8">
                     
-                    <textarea id="description" class="form-control @error('description') is-invalid @enderror" value="{{old('description')}}" autocomplete="description"></textarea>
+                    <textarea id="description" name="description" class="form-control @error('description') is-invalid @enderror" value="{{old('description')}}" autocomplete="description"></textarea>
                     <span class="invalid-feedback" role="alert">
                         @error('description')
 
@@ -123,7 +123,7 @@
             <div class="form-group row">
                 <label for="publish_year" class="col-4 col-form-label text-md-right">سنة النشر</label>
                 <div class="col-md-8">
-                    <input type="date" id="publish_year" class="form-control @error('publish_year') is-invalid @enderror" value="{{old('publish_year')}}" autocomplete="publish_year">
+                    <input type="number" id="publish_year" name="publish_year" class="form-control @error('publish_year') is-invalid @enderror" value="{{old('publish_year')}}" autocomplete="publish_year">
                     <span class="invalid-feedback" role="alert">
                         @error('publish_year')
 
@@ -133,9 +133,10 @@
                 </div>
             </div>
             <div class="form-group row">
+
                 <label for="number_of_page" class="col-4 col-form-label text-md-right">ادخل عدد الصفحات</label>
                 <div class="col-md-8">
-                    <input type="number" id="number_of_page" class="form-control @error('number_of_page') is-invalid @enderror" value="{{old('number_of_page')}}" autocomplete="number_of_page">
+                    <input type="number" id="number_of_page" name="number_of_page" class="form-control @error('number_of_page') is-invalid @enderror" value="{{old('number_of_page')}}" autocomplete="number_of_page">
                     <span class="invalid-feedback" role="alert">
                         @error('number_of_page')
 
@@ -147,7 +148,7 @@
             <div class="form-group row">
                 <label for="number_of_copy" class="col-4 col-form-label text-md-right">ادخل عدد النسخ </label>
                 <div class="col-md-8">
-                    <input type="number" id="number_of_copy" class="form-control @error('number_of_copy') is-invalid @enderror" value="{{old('number_of_copy')}}" autocomplete="number_of_copy">
+                    <input type="number" name="number_of_copy" id="number_of_copy" class="form-control @error('number_of_copy') is-invalid @enderror" value="{{old('number_of_copy')}}" autocomplete="number_of_copy">
                     <span class="invalid-feedback" role="alert">
                         @error('number_of_copy')
 
@@ -159,7 +160,7 @@
             <div class="form-group row">
                 <label for="price" class="col-4 col-form-label text-md-right">السعر </label>
                 <div class="col-md-8">
-                    <input type="number" id="price" class="form-control @error('price') is-invalid @enderror" value="{{old('price')}}" autocomplete="price">
+                    <input type="number" name='price'id="price" class="form-control @error('price') is-invalid @enderror" value="{{old('price')}}" autocomplete="price">
                     <span class="invalid-feedback" role="alert">
                         @error('price')
 

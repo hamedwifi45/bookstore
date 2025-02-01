@@ -61,7 +61,7 @@
             <button class="btn btn-primary" type="submit">ابحث</button>
         </form>
     </div>
-    <hr>
+    
     <h3 class="my-3">{{$title}}</h3>
     <div class="mt-50 mb-50">
         <div class="row">
@@ -82,8 +82,8 @@
                                         <h6 class="font-weight-semibold card-title mb-2">
                                             <a href="{{route('book.details', $book)}}" class="text-default mb-2" data-abc="true"><h3>{{$book->title}}</h3></a>
                                         </h6>
-                                        <a href="{{route('Gallary.category.show', $book->categor)}}" class="text-muted" data-abc="true">
-                                            @if ($book->categor != null)
+                                        @if ($book->categor != null)
+                                                <a href="{{route('Gallary.category.show', $book->categor)}}" class="text-muted" data-abc="true">
                                                 {{$book->categor->name}}
                                             @endif
                                         </a>
