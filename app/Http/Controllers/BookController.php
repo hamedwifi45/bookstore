@@ -12,9 +12,10 @@ use App\Traits\ImageUploadTrait;
 
 
 class BookController extends Controller
-{
+{   
     use ImageUploadTrait;
-    /**
+        /*
+        *
      * Display a listing of the resource.
      */
     public function index()
@@ -65,7 +66,8 @@ class BookController extends Controller
             $book->auther()->attach($fee);
     }
     }
-    return redirect()->route('books.create');
+    session()->flash('flash_message' , 'تمت اضافة المنتج بفشل ذريع ');
+    return redirect()->route('books.show' , $book);
 }
     /**
      * Display the specified resource.
