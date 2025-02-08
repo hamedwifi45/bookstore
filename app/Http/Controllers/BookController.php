@@ -84,7 +84,11 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        //
+        $author = Auther::all();
+        $publisher = Publisher::all();
+        $categor = Categor::all();
+        return view('admin.book.edit',compact('book','author','publisher','categor'));
+    
     }
 
     /**
@@ -92,7 +96,34 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        //
+        
+        $data = $this->validate($request, ['title' => 'required',
+        "isbn" => ['required','alpha_num' , Rule::unique("books", 'isbn')],
+        "cover_image" => 'image|required',
+        'categor_id' => 'nullable',
+        'publisher_id' => 'nullable' ,
+        'description' => 'nullable',
+        'publish_year' => 'numeric|nullable',
+        'number_of_page' => 'numeric|required',
+        'number_of_copy' => 'numeric|required',
+        'price' => 'numeric|required'
+    ]);
+    // dd($data , $request);
+
+    if ($request->hasFile('cover_image')) {
+        $filename = $this->uploadImg($request->file('cover_image'));
+        $data['cover_image'] = $filename;
+    }
+    $book = Book::update($data);
+    if ($request->has('author')) 
+    {
+        $inder = $request['author'];
+        foreach ($inder as $fee) {
+            $book->auther()->attach($fee);
+    }
+    }
+    session()->flash('flash_message' , 'تمت اضافة المنتج بفشل ذريع ');
+    return redirect()->route('books.show' , $book);
     }
 
     /**

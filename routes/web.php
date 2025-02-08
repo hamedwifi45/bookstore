@@ -55,10 +55,5 @@ Route::get('/admin/books/create', [BookController::class ,'create'] )->name('boo
 Route::post('/admin/books/store', [BookController::class ,'store'] )->name('books.store');
 Route::delete('/admin/books/delete/{book}', [BookController::class ,'destroy'] )->name('books.delete');
 Route::get('/admin/books/show/{book:title}', [BookController::class ,'show'] )->name('books.show');
-
-use Intervention\Image\Facades\Image;
-
-Route::get('/test-image', function () {
-    $img = Image::make('https://example.com/sample-image.jpg')->resize(300, 200);
-    return $img->response('jpg');
-});
+Route::get('/admin/books/update/{book}', [BookController::class ,'edit'] )->name('book.edit');
+Route::patch('/admin/books/update', [BookController::class ,'update'] )->name('books.update');

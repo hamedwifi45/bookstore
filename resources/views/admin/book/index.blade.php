@@ -21,6 +21,7 @@
                         <th>المؤلفون</th>
                         <th>الناشرون</th>
                         <th>سعر الكتاب</th>
+                        <th>EDit</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,6 +40,7 @@
                             </td>
                             <td>{{$book->publisher != null ? $book->publisher->name : ''}}</td>
                             <td>{{$book->price}}</td>
+                            <td><a class="btn btn-info btn-sm" href="{{route('book.edit' , $book)}}"><i class="bi bi-pencil-square"></i> تعديل</a></td>
                         </tr>
                     @endforeach
                 </tbody>
