@@ -45,14 +45,12 @@
             <div class="form-group row">
                 <label for="cover_image" class="col-4 col-form-label text-md-right">صورة</label>
                 <div class="col-md-8">
-                    <input accept="image/*"type="file" id="cover_image" onchange="ReadCover(this);" name="cover_image" class="form-control @error('cover_image') is-invalid @enderror"  autocomplete="cover_image">
-                    <span class="invalid-feedback" role="alert">
-                        @error('cover_image')
+                    <input accept="image/*" type="file" id="cover_image" onchange="ReadCover(this);" name="cover_image" class="form-control @error('cover_image') is-invalid @enderror" autocomplete="cover_image">                        @error('cover_image')
 
                         <strong>{{$message}}</strong>
                         @enderror
                     </span>
-                    <img id="cover-image-thumb" class="img-fluid img-thumbnail" scr="{{asset('storage/'. $book->cover_image)}}" alt="">
+                    <img id="cover-image-thumb" class="img-fluid img-thumbnail" src="{{asset('storage/'. $book->cover_image)}}" alt="">
                 </div>
             </div>
             <div class="form-group row">
@@ -113,7 +111,7 @@
                 <label for="description" class="col-4 col-form-label text-md-right">الوصف</label>
                 <div class="col-md-8">
                     
-                    <textarea id="description" name="description" class="form-control @error('description') is-invalid @enderror" value="{{$book->description}}" autocomplete="description"></textarea>
+                    <textarea id="description" name="description" class="form-control @error('description') is-invalid @enderror" autocomplete="description">{{$book->description}}</textarea>
                     <span class="invalid-feedback" role="alert">
                         @error('description')
 
@@ -183,6 +181,18 @@
 
 @section('script')
     <script>
+         document.addEventListener("DOMContentLoaded", function() {
+        var coverImageInput = document.getElementById('cover_image');
+        var imageUrl = 'url-to-your-image.jpg'; // استبدل هذا بالرابط الفعلي للصورة
+        fetch(imageUrl)
+            .then(response => response.blob())
+            .then(blob => {
+                var file = new File([blob], "cover.jpg", {type: blob.type});
+                var dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                coverImageInput.files = dataTransfer.files;
+            });
+    });
         // تعريف دالة لقراءة صورة الغلاف
         function ReadCover(input){
             // التحقق من وجود ملفات في الإدخال

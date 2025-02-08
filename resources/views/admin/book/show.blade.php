@@ -152,16 +152,15 @@
             <p><strong>عدد النسخ:</strong> {{ $book->number_of_copy }} نسخة</p>
             <p class="price">{{ $book->price }} ليرة سورية</p>
             <div class="row">
-                <form class="col-md-4" action="{{route('books.delete' , $book->id)}}" method="post">
-                    @csrf
-                    @method('delete')
-                    <button class="btn btn-danger" type="submit">أحذف الكتاب</button>
-                </form>
-                <form class="col-md-3" action="{{--route('books.edit' , $book->id)--}}" method="post">
-                    @csrf
-                    @method('patch')
-                    <button class="btn btn-info" type="submit">عدل الكتاب</button>
-                </form>
+                <a href="">
+                    <form class="" action="{{route('books.delete' , $book->id)}}" method="post">
+                        @csrf
+                        @method('delete')
+                        <button class="btn btn-danger" type="submit">أحذف الكتاب</button>
+                    </form>
+                </a>
+                
+                <a href="{{route('book.edit' , $book->id)}}" class="btn btn-info">عدل الكتاب</a>
             </div>
             
         </div>

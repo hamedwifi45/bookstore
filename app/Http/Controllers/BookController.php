@@ -9,7 +9,7 @@ use App\Models\Categor;
 use App\Models\Publisher;
 use Illuminate\Validation\Rule;
 use App\Traits\ImageUploadTrait;
-
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {   
@@ -95,36 +95,54 @@ class BookController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Book $book)
-    {
-        
-        $data = $this->validate($request, ['title' => 'required',
-        "isbn" => ['required','alpha_num' , Rule::unique("books", 'isbn')],
-        "cover_image" => 'image|required',
+{
+
+    $this->validate($request, [
+        'title' => 'required',
+        'isbn' => ['required', 'alpha_num'],
+        'cover_image' => 'image',
         'categor_id' => 'nullable',
-        'publisher_id' => 'nullable' ,
+        'publisher_id' => 'nullable',
         'description' => 'nullable',
         'publish_year' => 'numeric|nullable',
         'number_of_page' => 'numeric|required',
         'number_of_copy' => 'numeric|required',
         'price' => 'numeric|required'
     ]);
-    // dd($data , $request);
+
+    $book->title = $request->title;
 
     if ($request->hasFile('cover_image')) {
+        Storage::disk('public')->delete($book->cover_image);
         $filename = $this->uploadImg($request->file('cover_image'));
-        $data['cover_image'] = $filename;
+        $book->cover_image = $filename;
     }
-    $book = Book::update($data);
-    if ($request->has('author')) 
-    {
-        $inder = $request['author'];
-        foreach ($inder as $fee) {
-            $book->auther()->attach($fee);
+
+    $book->isbn = $request->isbn;
+    $book->categor_id = $request->category_id;
+    $book->publisher_id = $request->publisher_id;
+    $book->description = $request->description;
+    $book->publish_year = $request->publish_year;
+    $book->number_of_page = $request->number_of_page;
+    $book->number_of_copy = $request->number_of_copy;
+    $book->price = $request->price;
+
+    if ($book->isDirty('isbn')) {
+        $this->validate($request, [
+            'isbn' => ['required', 'alpha_num', Rule::unique('books', 'isbn')],
+        ]);
     }
-    }
-    session()->flash('flash_message' , 'تمت اضافة المنتج بفشل ذريع ');
-    return redirect()->route('books.show' , $book);
-    }
+
+    
+    $book->save();
+    $book->authors()->detach();
+    $book->authors()->attach($request->authors);
+
+    session()->flash('flash_message', 'تم تعديل الكتاب بنجاح');
+
+    return redirect(route('books.show', $book));
+}
+
 
     /**
      * Remove the specified resource from storage.
