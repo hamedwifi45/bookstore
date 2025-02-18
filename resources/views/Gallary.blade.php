@@ -89,14 +89,28 @@
                                         </a>
                                     </div>
                                     <h3 class="mb-0 font-weight-semibold">{{$book->price}} ليرة سورية</h3>
-                                    <div class="rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
+                                    <div>
+                                        <span class="score">
+                                            <div class="score-warp">
+                                                <span class="star-active" style="width: {{$book->rate() * 20}}%">
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-fill"></i>
+                                                </span>
+                                                <span class="star-inactive">
+                                                    <i class="bi bi-star"></i>
+                                                    <i class="bi bi-star"></i>
+                                                    <i class="bi bi-star"></i>
+                                                    <i class="bi bi-star"></i>
+                                                    <i class="bi bi-star"></i>
+                                                </span>
+                                            </div>
+
+                                        </span>
                                     </div>
-                                    <div class="text-muted mb-3">{{$book->rating->count()}} رأي</div>
+
                                     <button type="button" class="btn btn-primary"> <i class="bi bi-cart2 p-1" style=" color: white;"></i>اضف للسلة</button>
                                 </div>
                             </div>

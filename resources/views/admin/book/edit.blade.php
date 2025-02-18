@@ -15,8 +15,8 @@
             عدل الكتاب 
         </div>
         <div class="card-body">
-            <form action="{{route("books.update")}}" enctype="multipart/form-data" method="post">
-            @method('PATCH')
+            <form action="{{route("books.update",['book'=>$book->id])}}" enctype="multipart/form-data" method="post">
+                @method('PATCH')
             @csrf
             <div class="form-group row">
                 <label for="title" class="col-4 col-form-label text-md-right">ادخل اسم الكتاب</label>
@@ -181,18 +181,18 @@
 
 @section('script')
     <script>
-         document.addEventListener("DOMContentLoaded", function() {
-        var coverImageInput = document.getElementById('cover_image');
-        var imageUrl = 'url-to-your-image.jpg'; // استبدل هذا بالرابط الفعلي للصورة
-        fetch(imageUrl)
-            .then(response => response.blob())
-            .then(blob => {
-                var file = new File([blob], "cover.jpg", {type: blob.type});
-                var dataTransfer = new DataTransfer();
-                dataTransfer.items.add(file);
-                coverImageInput.files = dataTransfer.files;
-            });
-    });
+    //      document.addEventListener("DOMContentLoaded", function() {
+    //     var coverImageInput = document.getElementById('cover_image');
+    //     var imageUrl = 'url-to-your-image.jpg'; // استبدل هذا بالرابط الفعلي للصورة
+    //     fetch(imageUrl)
+    //         .then(response => response.blob())
+    //         .then(blob => {
+    //             var file = new File([blob], "cover.jpg", {type: blob.type});
+    //             var dataTransfer = new DataTransfer();
+    //             dataTransfer.items.add(file);
+    //             coverImageInput.files = dataTransfer.files;
+    //         });
+    // });
         // تعريف دالة لقراءة صورة الغلاف
         function ReadCover(input){
             // التحقق من وجود ملفات في الإدخال

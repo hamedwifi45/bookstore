@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
@@ -17,6 +18,31 @@
         body{
             font-family: 'Cairo', sans-serif;
             background-color: #f0f0f0
+        }
+        .score{
+            display: block;
+            font-size: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        .score-warp{
+            display: inline-block;
+            position: relative;
+            height: 19px;
+        }
+        .score .star-active{
+            color:#ffca00;
+            position: relative;
+            z-index: 10;
+            display: block;
+            overflow: hidden;
+            white-space: nowrap
+        }
+        .score .star-inactive{
+            color: lightgray;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
     </style>
     @yield('style')
@@ -32,6 +58,19 @@
               </button>
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mx-auto">
+                    @auth
+                    <li class="nav-item">
+                        <a href="{{--route('cart.view')--}}" class="nav-link"></a>
+                        @if (Auth::user()->bookInCart()->count() > 0)
+                        <span class="badge bg-secondary">{{Auth::user()->bookInCart()->count()}}</span>
+                        
+                        @else
+                        <span class="badge bg-secondary">0</span>
+                        @endif
+                        العربة
+                    </li>
+                    @endauth
+                        
                     <li class="nav-item">
                         <a href="{{route('categor.list')}}" class="nav-link">
                             التصنيفات
@@ -78,6 +117,9 @@
                         
                         </a>
                         <div class="dropdown-menu dropdown-menu-left px-2 text-right mt-2">
+                            @can('update_books')
+                                <a class="dropdown-item" href="{{route('admin.index')}}">لوحة الادارة</a>
+                            @endcan
     
 
         <!-- Responsive Settings Options -->
@@ -165,7 +207,13 @@
           </main>
 
     </div>
+<!-- GSAP for advanced animations -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
 
+<!-- Three.js for 3D effects -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<!-- FontAwesome for icons -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 @yield('script')

@@ -21,7 +21,14 @@ class Book extends Model
     public function auther(){
     return $this->belongsToMany(Auther::class,"book_auther");
     }
-    public function rating(){
-        return $this->belongsToMany(User::class,"rating");
+    public function ratings(){
+        return $this->hasMany(Rating::class);
     }
+    
+    public function rate(){
+        return $this->ratings()->count() > 0 ? $this->ratings()->sum('value') / $this->ratings()->count() : 0;
+    }
+    
+    
+    
 }

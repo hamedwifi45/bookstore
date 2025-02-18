@@ -12,7 +12,8 @@ class AutherController extends Controller
      */
     public function index()
     {
-        //
+        $auther = Auther::all();
+        return view('admin.auther.index', compact('auther'));
     }
 
     /**
@@ -20,7 +21,8 @@ class AutherController extends Controller
      */
     public function create()
     {
-        //
+        return view("admin.auther.create");
+
     }
 
     /**
@@ -28,7 +30,14 @@ class AutherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, ['name'=>'required']);
+
+        $auther = new Auther();
+        $auther->name = $request->name;
+        $auther->description = $request->description;
+        $auther->save();
+        session('flash_message','تمت اضافة التصنيف بنجاح');
+        return redirect()->route('authers.index');
     }
 
     /**
@@ -36,7 +45,9 @@ class AutherController extends Controller
      */
     public function show(Auther $auther)
     {
-        //
+        $books = $auther->books()->paginate(12);
+        $title =  "الكتب التابعة ل" . $auther->name;
+        return view("Gallary", data: compact("books","title"));
     }
 
     /**
@@ -44,7 +55,8 @@ class AutherController extends Controller
      */
     public function edit(Auther $auther)
     {
-        //
+        return view('admin.auther.edit', compact('auther'));
+
     }
 
     /**
@@ -52,7 +64,15 @@ class AutherController extends Controller
      */
     public function update(Request $request, Auther $auther)
     {
-        //
+        
+
+        $this->validate($request, ['name'=>'required']);
+
+        $auther->name = $request->name;
+        $auther->description = $request->description;
+        $auther->save();
+        session()->flash('flash_message','تمت تحديث التصنيف بنجاح');
+        return redirect()->route('authers.index');
     }
 
     /**
@@ -60,7 +80,9 @@ class AutherController extends Controller
      */
     public function destroy(Auther $auther)
     {
-        //
+        $auther->delete();
+        session()->flash('flash_message','تمت حذف التصنيف بنجاح');
+        return redirect()->route('authers.index');
     }
     public function search(Request $request){
         $auther = Auther::where('name','like','%'. $request->term . '%')->get()->sortBy('name');

@@ -12,7 +12,8 @@ class PublisherController extends Controller
      */
     public function index()
     {
-        //
+        $categor = Publisher::all();
+        return view('admin.publisher.index' , compact('categor'));
     }
 
     /**
@@ -20,7 +21,7 @@ class PublisherController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.publisher.create');
     }
 
     /**
@@ -28,7 +29,14 @@ class PublisherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, ['name'=>'required']);
+
+        $publisher = new Publisher();
+        $publisher->name = $request->name;
+        $publisher->addreas = $request->addreas;
+        $publisher->save();
+        session('flash_message','تمت اضافة الناشر بنجاح');
+        return redirect()->route('publishers.index');
     }
 
     /**
@@ -36,7 +44,10 @@ class PublisherController extends Controller
      */
     public function show(Publisher $publisher)
     {
-        //
+        
+        $books = $publisher->books()->paginate(12);
+        $title =  "الكتب التابعة ل" . $publisher->name;
+        return view("Gallary", compact("books","title"));
     }
 
     /**
@@ -44,7 +55,8 @@ class PublisherController extends Controller
      */
     public function edit(Publisher $publisher)
     {
-        //
+
+        return view('admin.publisher.edit', compact('publisher'));
     }
 
     /**
@@ -52,7 +64,11 @@ class PublisherController extends Controller
      */
     public function update(Request $request, Publisher $publisher)
     {
-        //
+        $publisher->name = $request->name;
+        $publisher->addreas = $request->addreas;
+        $publisher->save();
+        session()->flash('flash_message','تمت تحديث الناشر بنجاح');
+        return redirect()->route('publishers.index');
     }
 
     /**
@@ -60,7 +76,9 @@ class PublisherController extends Controller
      */
     public function destroy(Publisher $publisher)
     {
-        //
+        $publisher->delete();
+        session()->flash('flash_message','تمت حذف التصنيف بنجاح');
+        return redirect()->route('publishers.index');
     }
     public function search(Request $request){
         $publisher = Publisher::where('name','like','%'. $request->term . '%')->get()->sortBy('name');

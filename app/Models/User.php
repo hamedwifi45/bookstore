@@ -58,4 +58,22 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+    public function isAdmin(){
+        return $this->level_admin > 0? true : false;
+    }
+    public function isSuperAdmin(){
+        return $this->level_admin > 1? true : false;
+    }
+    public function ratings(){
+        return $this->hasMany(Rating::class);
+    }
+    public function rated(Book $book){
+        return $this->ratings()->where('book_id' , $book->id)->count() > 0;
+    }
+    public function bookRating(Book $book){
+        return $this->rated($book) ? $this->ratings()->where('book_id' , $book->id)->first() : Null ; 
+    }
+    public function bookInCart(){
+        return $this->belongsToMany(Book::class)->withPivot(['number_of_copy','bought','price'])->wherePivot('bought' , False);
+    }
 }

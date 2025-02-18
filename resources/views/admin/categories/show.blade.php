@@ -125,7 +125,7 @@
             background: linear-gradient(to bottom, #f3f3f3, #fff);
         }
     }
-</style>   
+/style>   
 @endsection
 @section('content')
 <div class="container">

@@ -12,6 +12,8 @@ class CategorController extends Controller
      */
     public function index()
     {
+        $categor = Categor::all();
+        return view('admin.categories.index', compact('categor'));
         
     }
 
@@ -20,7 +22,7 @@ class CategorController extends Controller
      */
     public function create()
     {
-        //
+        return view("admin.categories.create");
     }
 
     /**
@@ -28,39 +30,57 @@ class CategorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, ['name'=>'required']);
+
+        $category = new Categor();
+        $category->name = $request->name;
+        $category->description = $request->description;
+        $category->save();
+        session('flash_message','تمت اضافة التصنيف بنجاح');
+        return redirect()->route('categories.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Categor $categor)
+    public function show(Categor $category)
     {
-        //
+        $books = $category->books()->paginate(12);
+        $title =  "الكتب التابعة ل" . $category->name;
+        return view("Gallary", compact("books","title"));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Categor $categor)
+    public function edit(Categor $category)
     {
-        //
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Categor $categor)
+    public function update(Request $request, Categor $category)
     {
-        //
+        
+        $this->validate($request, ['name'=>'required']);
+
+        $category->name = $request->name;
+        $category->description = $request->description;
+        $category->save();
+        session()->flash('flash_message','تمت تحديث التصنيف بنجاح');
+        return redirect()->route('categories.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Categor $categor)
+    public function destroy(Categor $category)
     {
-        //
+        $category->delete();
+        session()->flash('flash_message','تمت حذف التصنيف بنجاح');
+        return redirect()->route('categories.index');
     }
     public function result(Categor $categor){
         $books = $categor->books()->paginate(12);

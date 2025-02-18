@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Auther;
 use App\Models\Categor;
 use App\Models\Publisher;
+use App\Models\Rating;
 use Illuminate\Validation\Rule;
 use App\Traits\ImageUploadTrait;
 use Illuminate\Support\Facades\Storage;
@@ -135,9 +136,9 @@ class BookController extends Controller
 
     
     $book->save();
-    $book->authors()->detach();
-    $book->authors()->attach($request->authors);
-
+    $book->auther()->detach();
+    $book->auther()->attach($request->authors);
+    
     session()->flash('flash_message', 'تم تعديل الكتاب بنجاح');
 
     return redirect(route('books.show', $book));
@@ -149,6 +150,7 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
+        Storage::disk('public')->delete($book->cover_image);
         $book->delete();
         return redirect()->route('books.index');
     }
@@ -157,5 +159,22 @@ class BookController extends Controller
         $book->view += 1;
         $book->save();
         return view("books.details", compact("book"));
+    }
+    public function rate(Book $book , Request $request){
+        if(auth()->user()->bookRating($book)){
+            $rating = Rating::where(['user_id' => auth()->user()->id , 'book_id' => $book->id])->first();
+            $rating->value = $request->value;
+            $rating->save();
+
+        }
+        else{
+            $rating = new Rating ;
+            $rating->user_id = auth()->user()->id;
+            $rating->book_id = $book->id;
+            $rating->value = $request->value;
+            $rating->save();
+
+        }
+        return back();
     }
 }

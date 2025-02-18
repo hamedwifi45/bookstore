@@ -3,9 +3,12 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AutherController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategorController;
 use App\Http\Controllers\GallaryController;
 use App\Http\Controllers\PublisherController;
+use App\Http\Controllers\UserController;
+use App\Models\Auther;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +39,7 @@ Route::middleware([
 Route::get('/', [GallaryController::class , 'index'] )->name('Gallary.index');
 Route::get('/search' ,[GallaryController::class ,'search'] )->name('search');
 Route::get('/book/{book}' ,[BookController::class ,'details'] )->name('book.details');
+Route::post('/book/{book}/rate' ,[BookController::class ,'rate'] )->name('book.rate');
 
 Route::get('/category/{categor:name}' ,[CategorController::class ,'result'] )->name('Gallary.category.show');
 Route::get('/category',[CategorController::class ,'list'] )->name('categor.list');
@@ -49,11 +53,21 @@ Route::get('/auther/search' ,[AutherController::class ,'search'] )->name('search
 Route::get('/auther/{auther:name}' ,[AutherController::class ,'result'] )->name('Gallary.auther.show');
 Route::get('/auther',[AutherController::class ,'list'] )->name('auther.list');
 
-Route::get('/admin', [AdminController::class ,'index'] )->name('admin.index');
-Route::get('/admin/books', [BookController::class ,'index'] )->name('books.index');
-Route::get('/admin/books/create', [BookController::class ,'create'] )->name('books.create');
-Route::post('/admin/books/store', [BookController::class ,'store'] )->name('books.store');
-Route::delete('/admin/books/delete/{book}', [BookController::class ,'destroy'] )->name('books.delete');
-Route::get('/admin/books/show/{book:title}', [BookController::class ,'show'] )->name('books.show');
-Route::get('/admin/books/update/{book}', [BookController::class ,'edit'] )->name('book.edit');
-Route::patch('/admin/books/update', [BookController::class ,'update'] )->name('books.update');
+Route::prefix('/admin')->middleware('can:update_books')->group(function () {
+    
+    Route::get('/', [AdminController::class ,'index'] )->name('admin.index');
+    Route::get('/books', [BookController::class ,'index'] )->name('books.index');
+    Route::get('/books/create', [BookController::class ,'create'] )->name('books.create');
+    Route::post('/books/store', [BookController::class ,'store'] )->name('books.store');
+    Route::delete('/books/delete/{book}', [BookController::class ,'destroy'] )->name('books.delete');
+    Route::get('/books/show/{book:title}', [BookController::class ,'show'] )->name('books.show');
+    Route::get('/books/update/{book}', [BookController::class ,'edit'] )->name('book.edit');
+    Route::patch('/books/update/{book}', [BookController::class ,'update'] )->name('books.update');
+    Route::resource('/categories',CategorController::class);
+    Route::resource('/publishers',PublisherController::class);
+    Route::resource('/authers',AutherController::class);
+    Route::resource('/users',UserController::class)->middleware('can:update_users');
+});
+
+
+Route::post('/cart',[CartController::class,'addToCart'])->name('cart.add');
