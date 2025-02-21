@@ -11,7 +11,6 @@ class CartController extends Controller
         $this->middleware('auth');
     }
     public function addTocart(Request $request){
-        dd($request);
         $book = Book::find($request->id);
         if(auth()->user()->bookInCart->contains($book)){
             $newQu = $request->quanity + auth()->user()->bookInCart()->where('book_id' , $book->id)->first()->pivot->number_of_copy;
@@ -28,5 +27,25 @@ class CartController extends Controller
         }
         $num_of_prod = auth()->user()->bookInCart()->count();
         return response()->json(['number_of_prod'=> $num_of_prod]);
+    }
+    public function viewCart(){
+        $items = auth()->user()->bookInCart;
+        return view('cart' , compact('items'));
+    }
+    public function remove_one(Book $book){
+        $old = auth()->user()->bookInCart()->where('book_id' , $book->id)->first()->pivot->number_of_copy;
+        if($old > 1){
+            auth()->user()->bookInCart()->updateExistingPivot($book->id ,['number_of_copy' => --$old]);
+        } else{
+            auth()->user()->bookInCart()->detach($book->id);
+        }
+        return redirect()->back();
+        
+    }
+    public function remove_all(Book $book){
+        
+    auth()->user()->bookInCart()->detach($book->id);
+    
+    return redirect()->back();
     }
 }

@@ -259,14 +259,16 @@
             </ul>
         </div>
     </div>
-
+    
+    @endsection
+    @section('script')
     <script>
         // GSAP Animations
         gsap.from(".product-container", { duration: 1.5, opacity: 0, y: 50, ease: "power2.out" });
         gsap.from(".description", { duration: 1.5, opacity: 0, y: 50, ease: "power2.out", delay: 0.5 });
         gsap.from(".reviews", { duration: 1.5, opacity: 0, y: 50, ease: "power2.out", delay: 1 });
         gsap.from(".suggestions", { duration: 1.5, opacity: 0, y: 50, ease: "power2.out", delay: 1.5 });
-
+    
         // 3D Hover Effect
         const bookCover = document.getElementById('book-cover');
         bookCover.addEventListener('mousemove', (e) => {
@@ -274,7 +276,7 @@
             const yAxis = (window.innerHeight / 2 - e.pageY) / 20;
             bookCover.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
         });
-
+    
         bookCover.addEventListener('mouseleave', () => {
             bookCover.style.transform = 'rotateY(20deg) rotateX(10deg)';
         });
@@ -282,11 +284,11 @@
         event.preventDefault();
         var token = '{{ session()->token() }}';
         var url = '{{ route('cart.add') }}';
-
+    
         var bookId = $(this).parent('.form').find('#bookId').val();
         var quanity = $(this).parent('.form').find('#quanity').val();
         console.log(bookId);
-
+    
         $.ajax({
             method: 'post',
             url: url,

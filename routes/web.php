@@ -71,3 +71,6 @@ Route::prefix('/admin')->middleware('can:update_books')->group(function () {
 
 
 Route::post('/cart',[CartController::class,'addToCart'])->name('cart.add');
+Route::get('/cart',[CartController::class,'viewCart'])->name('cart.view');
+Route::post('/remove_one/{book}',[CartController::class,'remove_one'])->name('cart.remove_one');
+Route::post('/remove_all/{book}',[CartController::class,'remove_all'])->name('cart.remove_all');
